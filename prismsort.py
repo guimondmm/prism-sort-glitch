@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Prism Sort glitch algorithm v0.1.1.
+Prism Sort glitch algorithm v0.1.2.
 
 Copyright 2016 Mathieu Guimond-Morganti
 
@@ -54,16 +54,29 @@ from math import sqrt, radians as rad, cos, sin
 from platform import system
 import sys
 import getopt
+import subprocess
 try:
     # requires the Pillow module and its dependencies ($ pip3 install Pillow)
     # http://pillow.readthedocs.org/en/3.1.x/installation.html
     from PIL import Image, ImageOps
 except ImportError:
+    # try to install Pillow automatically
     print("\nThis Python 3 script requires the \x1B[0;1mPillow\x1B[0m module a\
-nd its dependencies.\nTry the command:")
-    print("\x1B[0;1m$ pip3 install Pillow\x1B[0m")
-    print("or visit \x1B[0;1mhttp://pillow.readthedocs.org/en/3.1.x/installati\
-on.html\n\x1B[0m")
+nd its dependencies.")
+    try:
+        install = subprocess.Popen(["pip3", "install", "Pillow"],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE).communicate()[0]
+    except FileNotFoundError as e:
+        install = bytes(str(e), "ascii")
+    if b'Successfully installed' in install:
+        print("\x1B[0;1mPillow was automatically installed.\x1B[0m Please try r\
+unning the script again.\n")
+    else:
+        print("Try the command:")
+        print("\x1B[0;1m$ pip3 install Pillow\x1B[0m")
+        print("or visit \x1B[0;1mhttp://pillow.readthedocs.org/en/3.1.x/instal\
+lation.html\n\x1B[0m")
     sys.exit(1)
 
 # default parameters
