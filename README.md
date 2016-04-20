@@ -42,7 +42,7 @@ Creates 10 randomly glitched versions of that photo that are 1/3rd the size of t
 ![© 2016 Mathieu Guimond-Morganti, licensed under CC-BY-SA 4.0](http://i.imgur.com/YqUpJrg.jpg)
 
 `$ prismsort.py IMG_20160419.jpg -n 3 -H -d`  
-Creates 2 randomly glitched versions of that photo, with a horizontal, dithered pattern.
+Creates 3 randomly glitched versions of that photo, with a horizontal, dithered pattern.
 ![© 2016 Mathieu Guimond-Morganti, licensed under CC-BY-SA 4.0](http://i.imgur.com/4G3jSLf.png)
 
 ## Derivative Work
