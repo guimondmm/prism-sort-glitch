@@ -9,6 +9,10 @@ This Python 3 script requires the Pillow module and its dependencies.
 Try the command `$ pip3 install Pillow`
 or visit http://pillow.readthedocs.org/en/3.1.x/installation.html
 
+## Download
+
+[First public release](https://github.com/guimondmm/prism-sort-glitch/releases)
+
 ## Usage
 `$ prismsort.py inputfile [options]`
 
