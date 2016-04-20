@@ -18,26 +18,28 @@ or visit http://pillow.readthedocs.org/en/3.1.x/installation.html
 
 ##### Command-line parameters:
 ```
--a, --angle=NUM     : rotates the glitch effect by this many degrees  
-                      (default: 0, i.e. vertical)  
--b, --blocks=NUM    : number of blocks (default: 9)  
-                      affects the overlapping of the glitch effect  
-                      (higher = more intense)  
--d, --dither        : makes result more noisy, and less blocky  
--f, --fuzzyedges    : in combination with a rotation, will leave a fuzzy black  
-                      border around the image  
--h, --help          : displays this help message  
--H, --horizontal    : processes the image horizontally (same as -a 90)  
--i, --intensity=NUM : intensity [recommended: -2~2; default: 0]  
-                      will not go lower than (3 - number of blocks)  
--J, --jpeg=NUM      : saves as JPEG at the specified quality  
-                      (recommended: 75~95)  
--n, --numoutput=NUM : number of output files to be generated (default: 1)  
-                      the output files are in the format:  
-                      <originalfilename>_out<number>.<ext>  
-                      files are overwritten without warning!  
--P, --png           : saves as PNG (default)  
--r, --resize=NUM    : resize factor (e.g. 2 divides side by sqrt(2); optional)  
+-a, --angle=NUM     : rotates the glitch effect by this many degrees
+                      (default: 0, i.e. vertical)
+-b, --blocks=NUM    : number of blocks (default: 9)
+                      affects the overlapping of the glitch effect
+                      (higher = more intense)
+-d, --dither        : makes result more noisy, and less blocky
+-f, --fuzzyedges    : in combination with a rotation, will leave a fuzzy black
+                      border around the image
+-h, --help          : displays this help message
+-H, --horizontal    : processes the image horizontally (same as -a 90
+-i, --intensity=NUM : intensity (recommended: -2~2; default: 0)
+                      will not go lower than (3 - number of blocks)
+-I, --interpol=NUM  : rotation interpolation (default: 0 = bicubic, sharp)
+                      (1 = bilinear, smooth; 2 = nearest, aliased)
+-J, --jpeg=NUM      : saves as JPEG at the specified quality
+                      (recommended: 75~95)
+-n, --numoutput=NUM : number of output files to be generated (default: 1)
+                      the output files are in the format:
+                      <originalfilename>_out<number>.<ext>
+                      files are overwritten without warning!
+-P, --png           : saves as PNG (default)
+-r, --resize=NUM    : resize factor (e.g. 2 divides side by sqrt(2); optional)
 -V, --vertical      : processes the image vertically (default; same as -a 0)  
 ```
 ##### Examples:
