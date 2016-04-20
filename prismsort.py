@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Prism Sort glitch algorithm v1.0
+# Prism Sort glitch algorithm v0.1
 # Copyright 2016 Mathieu Guimond-Morganti
 
 # This program is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
@@ -39,7 +39,7 @@ jpeg = None # save as JPEG
 fuzzyedges = False # if True, don't crop the output as much (rotation must be non-zero)
 eegg = [] # empty list
 usage = '''
-Prism Sort glitch algorithm v1.0
+Prism Sort glitch algorithm v0.1
 \xA9 2016 Mathieu Guimond-Morganti, licensed under CC-BY-SA 4.0
 
 Usage: python3 prismsort.py inputfile [options]
