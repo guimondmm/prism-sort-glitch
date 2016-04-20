@@ -64,15 +64,16 @@ except ImportError:
     print("\nThis Python 3 script requires the \x1B[0;1mPillow\x1B[0m module a\
 nd its dependencies.")
     try:
+        # install is the output of the command in bytes
         install = subprocess.Popen(["pip3", "install", "Pillow"],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE).communicate()[0]
-    except FileNotFoundError as e:
+    except FileNotFoundError as e:  # if pip3 is not in PATH
         install = bytes(str(e), "ascii")
     if b'Successfully installed' in install:
-        print("\x1B[0;1mPillow was automatically installed.\x1B[0m Please try r\
-unning the script again.\n")
-    else:
+        print("\x1B[0;1mPillow was automatically installed.\x1B[0m Please try \
+running the script again.\n")
+    else:  # manual instructions
         print("Try the command:")
         print("\x1B[0;1m$ pip3 install Pillow\x1B[0m")
         print("or visit \x1B[0;1mhttp://pillow.readthedocs.org/en/3.1.x/instal\
