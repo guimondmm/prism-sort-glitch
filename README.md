@@ -5,10 +5,10 @@ This program is licensed under the Creative Commons Attribution-ShareAlike 4.0 I
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.
 
 ## Prerequisites
-This Python 3 script requires the Pillow module and its dependencies.
-The script will attempt to install Pillow automatically.
-If it fails, try the command `$ pip3 install Pillow`
-or visit http://pillow.readthedocs.org/en/3.1.x/installation.html
+This Python 3 script requires the Pillow module and its dependencies.  
+The script will attempt to install Pillow automatically.  
+If it fails, try the command `$ pip3 install Pillow`  
+or visit http://pillow.readthedocs.org/en/3.1.x/installation.html  
 
 ## Download
 
