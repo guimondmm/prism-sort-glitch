@@ -32,6 +32,7 @@ Usage:  %(interpreter)s %(scriptfile)s inputfile [options]
                       files are overwritten without warning!
 -P, --png           : saves as PNG (default)
 -r, --resize=NUM    : resize factor (e.g. 2 divides side by sqrt(2); optional)
+-s, --sound         : play alert sound when done (silent by default)
 -V, --vertical      : processes the image vertically (default; same as -a 0)
 """
 
@@ -60,13 +61,15 @@ import getopt
 import subprocess
 
 try:
+    BOLD = "\x1B[0;1m"  # ANSI escape code for bold or bright text
+    NORM = "\x1B[0m"  # ANSI escape code to reset text to normal
     # verify which version of Python is running the script
     assert(sys.version_info.major >= 3)
 except AssertionError:
-    print("\x1B[0;1m\nThis script requires Python 3.\x1B[0m")
-    print("Try the command: \x1B[0;1m",
+    print(BOLD+"\nThis script requires Python 3."+NORM)
+    print("Install it (if needed), then try the command: "+BOLD,
           "py -3" if system() == "Windows" else "python3",
-          __file__+"\x1B[0m\n")
+          __file__+NORM+"\n")
     sys.exit(69)
 
 try:
@@ -76,8 +79,8 @@ try:
     from PIL import Image, ImageOps
 except ImportError:
     # try to install Pillow automatically
-    print("\nThis Python 3 script requires the \x1B[0;1mPillow\x1B[0m module a\
-nd its dependencies.")
+    print("\nThis Python 3 script requires the "+BOLD+"Pillow"+NORM+" module "
+          "and its dependencies.\nPlease wait...", end="")
     try:
         # install is the output of the command in bytes
         install = subprocess.Popen(["pip3", "install", "Pillow"],
@@ -86,12 +89,14 @@ nd its dependencies.")
     except FileNotFoundError as e:  # if pip3 is not in PATH
         install = bytes(str(e), "ascii")
     if b'Successfully installed' in install:
-        print("\x1B[0;1mPillow was automatically installed.\x1B[0m Please try \
-running the script again.\n")
+        print("\r"+BOLD+"Pillow was automatically installed."+NORM,
+              "\nPlease try running the script again.\n")
     else:  # manual instructions
-        print("Try the command: \x1B[0;1m", "pip3 install Pillow\x1B[0m")
-        print("or visit \x1B[0;1mhttp://pillow.readthedocs.org/en/3.1.x/instal\
-lation.html\n\x1B[0m\n")
+        print("\r"+BOLD+"You need to install Pillow manually."+NORM)
+        print("Try the command: "+BOLD, "pip3 install Pillow"+NORM)
+        print("or visit"+BOLD,
+              "http://pillow.readthedocs.org/en/3.1.x/installation.html"
+              "\n"+NORM)
     sys.exit(69)
 
 
@@ -106,6 +111,7 @@ ROTATION = 0  # defaults to vertical
 JPEG = None  # save as .jpg if 0 < JPEG < 100
 FUZZY_EDGES = False  # if True, don't crop the output as much
 INTERPOLATION = 0  # for rotation; 0 = bicubic, 1 = bilinear, 2 = nearest
+BELL = ''  # silent by default
 L = []  # empty list
 
 
@@ -129,8 +135,8 @@ def openImage(file, resize=1):
     try:
         image = Image.open(file)
     except FileNotFoundError:
-        print("No such file: '"+file+"'. Please double-check the command-line \
-syntax.")
+        print("No such file: '"+file+"'. Please double-check the command-line "
+              "syntax.")
         sys.exit(66)
     # because don't want to manipulate JPEGs directly:
     image = image.convert('RGB')
@@ -370,9 +376,10 @@ def main():
 
             iteration += 1
             progress(done=True)
+        print(BELL)  # blank line if silent
 
     except KeyboardInterrupt:
-        print("\nCancelled." if not L
+        print("\nCancelled."+NORM if not L
               else "\n\x1B[0m\U0001F308"
               if system() == "\x44\x61\x72\x77\x69\x6E"
               else "\n\x3A\x27\x28\x1B[0m")
@@ -385,11 +392,12 @@ if __name__ == "__main__":
             printHelp()
         FILENAME = sys.argv[1]
         opts, args = getopt.getopt(sys.argv[2:],  # list of valid flags
-                                   "hHVdPfi:r:b:n:J:a:I:",
+                                   "hHVdPfsi:r:b:n:J:a:I:",
                                    ["interpol=", "fuzzyedges", "vertical",
                                     "help", "blocks=", "numoutput=", "resize=",
                                     "dither", "intensity=", "horizontal",
-                                    "angle=", "jpeg=", "png", "\x67\x61\x79"])
+                                    "angle=", "jpeg=", "sound",
+                                    "png", "\x67\x61\x79"])
     # IndexError if FILENAME unspecified
     except (IndexError, getopt.GetoptError):
         printHelp()
@@ -423,6 +431,8 @@ if __name__ == "__main__":
                 FUZZY_EDGES = True
             elif opt in ('-I', '--interpol'):  # resizing always uses Lanczos!
                 INTERPOLATION = int(arg)
+            elif opt in ('-s', '--sound'):  # ding!
+                BELL = '\a'
         except ValueError:
             printHelp()
     # failsafe for intensity, otherwise yields poor results
