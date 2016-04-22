@@ -43,17 +43,18 @@ or visit http://pillow.readthedocs.org/en/3.1.x/installation.html
 -s, --sound         : play alert sound when done (silent by default)
 -V, --vertical      : processes the image vertically (default; same as -a 0)  
 ```
+The most useful flags to experiment with are `-a`, `-b` and `-i`.
+
 ##### Examples:
-`$ prismsort.py IMG_20160419.jpg -n 10 -r 3 -a 45 -i -2 --fuzzyedges --jpeg 95`  
+`$ ./prismsort.py IMG_20160419.jpg -n 10 -r 3 -a 45 -i -2 --fuzzyedges --jpeg 95`  
 Creates 10 randomly glitched versions of that photo that are 1/3rd the size of the original, with a diagonal pattern at a 45° angle, and a slightly reduced intensity, with fuzzy (feathered) edges, and saves them in JPEG at 95% quality.
 ![© 2016 Mathieu Guimond-Morganti, licensed under CC-BY-SA 4.0](http://i.imgur.com/YqUpJrg.jpg)
 
-`$ prismsort.py IMG_20160419.jpg -n 3 -H -d`  
+`$ ./prismsort.py IMG_20160419.jpg -n 3 -H -d`  
 Creates 3 randomly glitched versions of that photo, with a horizontal, dithered pattern.
 ![© 2016 Mathieu Guimond-Morganti, licensed under CC-BY-SA 4.0](http://i.imgur.com/4G3jSLf.png)
 
 ## Derivative Work
-
 Images glitched using this algorithm should be licensed under CC-BY-SA 4.0 as well, with proper attribution, as I believe they constitute "adapted material" as covered under the terms of the license.
 
 The reason for this humble request is to encourage people to further experiment with this algorithm or its variants, as well as remix other people's artwork.
