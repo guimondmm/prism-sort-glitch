@@ -5,17 +5,16 @@ This program is licensed under the Creative Commons Attribution-ShareAlike 4.0 I
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.
 
 ## Prerequisites
-This Python 3 script requires the Pillow module and its dependencies.  
+This [Python 3](https://www.python.org/downloads/) script requires the Pillow module and its dependencies.  
 The script will attempt to install Pillow automatically.  
 If it fails, try the command `$ pip3 install Pillow`  
 or visit http://pillow.readthedocs.org/en/3.1.x/installation.html  
 
 ## Download
-
-[First public release](https://github.com/guimondmm/prism-sort-glitch/releases)
+[Click here for the latest release](https://github.com/guimondmm/prism-sort-glitch/releases)
 
 ## Usage
-`$ prismsort.py inputfile [options]`
+`$ ./prismsort.py inputfile [options]`
 
 ##### Command-line parameters:
 ```
@@ -28,7 +27,7 @@ or visit http://pillow.readthedocs.org/en/3.1.x/installation.html
 -f, --fuzzyedges    : in combination with a rotation, will leave a fuzzy black
                       border around the image
 -h, --help          : displays this help message
--H, --horizontal    : processes the image horizontally (same as -a 90
+-H, --horizontal    : processes the image horizontally (same as -a 90)
 -i, --intensity=NUM : intensity (recommended: -2~2; default: 0)
                       will not go lower than (3 - number of blocks)
 -I, --interpol=NUM  : rotation interpolation (default: 0 = bicubic, sharp)
@@ -41,6 +40,7 @@ or visit http://pillow.readthedocs.org/en/3.1.x/installation.html
                       files are overwritten without warning!
 -P, --png           : saves as PNG (default)
 -r, --resize=NUM    : resize factor (e.g. 2 divides side by sqrt(2); optional)
+-s, --sound         : play alert sound when done (silent by default)
 -V, --vertical      : processes the image vertically (default; same as -a 0)  
 ```
 ##### Examples:
@@ -54,7 +54,7 @@ Creates 3 randomly glitched versions of that photo, with a horizontal, dithered 
 
 ## Derivative Work
 
-Images glitched using this algorithm should be licensed under CC-BY-SA 4.0 as well, with proper attribution, as I believe they constitute derivative work as covered under the terms of the license.
+Images glitched using this algorithm should be licensed under CC-BY-SA 4.0 as well, with proper attribution, as I believe they constitute "adapted material" as covered under the terms of the license.
 
 The reason for this humble request is to encourage people to further experiment with this algorithm or its variants, as well as remix other people's artwork.
 
