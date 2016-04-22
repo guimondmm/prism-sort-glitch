@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Prism Sort glitch algorithm v0.1.2.
+Prism Sort glitch algorithm v0.1.3.
 
 Copyright 2016 Mathieu Guimond-Morganti
 
@@ -8,7 +9,7 @@ This program is licensed under the Creative Commons Attribution-ShareAlike 4.0
 International License. To view a copy of this license, visit
 http://creativecommons.org/licenses/by-sa/4.0/.
 
-Usage: python3 prismsort.py inputfile [options]
+Usage:  %(interpreter)s %(scriptfile)s inputfile [options]
 -a, --angle=NUM     : rotates the glitch effect by this many degrees
                       (default: 0, i.e. vertical)
 -b, --blocks=NUM    : number of blocks (default: 9)
@@ -18,7 +19,7 @@ Usage: python3 prismsort.py inputfile [options]
 -f, --fuzzyedges    : in combination with a rotation, will leave a fuzzy black
                       border around the image
 -h, --help          : displays this help message
--H, --horizontal    : processes the image horizontally (same as -a 90
+-H, --horizontal    : processes the image horizontally (same as -a 90)
 -i, --intensity=NUM : intensity (recommended: -2~2; default: 0)
                       will not go lower than (3 - number of blocks)
 -I, --interpol=NUM  : rotation interpolation (default: 0 = bicubic, sharp)
@@ -49,14 +50,28 @@ Usage: python3 prismsort.py inputfile [options]
 # Finally, if you feel generous or you want to get in touch,
 # my email is guimondmm at gmail dot com
 
+
+from __future__ import print_function  # prevent Python 2 crash, unsupported!
 from random import random, randrange
 from math import sqrt, radians as rad, cos, sin
 from platform import system
 import sys
 import getopt
 import subprocess
+
 try:
-    # requires the Pillow module and its dependencies ($ pip3 install Pillow)
+    # verify which version of Python is running the script
+    assert(sys.version_info.major >= 3)
+except AssertionError:
+    print("\x1B[0;1m\nThis script requires Python 3.\x1B[0m")
+    print("Try the command: \x1B[0;1m",
+          "py -3" if system() == "Windows" else "python3",
+          __file__+"\x1B[0m\n")
+    sys.exit(69)
+
+try:
+    # check for prerequisites: Python 3.x, the Pillow module,
+    # and its dependencies ($ pip3 install Pillow)
     # http://pillow.readthedocs.org/en/3.1.x/installation.html
     from PIL import Image, ImageOps
 except ImportError:
@@ -74,11 +89,11 @@ nd its dependencies.")
         print("\x1B[0;1mPillow was automatically installed.\x1B[0m Please try \
 running the script again.\n")
     else:  # manual instructions
-        print("Try the command:")
-        print("\x1B[0;1m$ pip3 install Pillow\x1B[0m")
+        print("Try the command: \x1B[0;1m", "pip3 install Pillow\x1B[0m")
         print("or visit \x1B[0;1mhttp://pillow.readthedocs.org/en/3.1.x/instal\
-lation.html\n\x1B[0m")
-    sys.exit(1)
+lation.html\n\x1B[0m\n")
+    sys.exit(69)
+
 
 # default parameters
 IMAGE_WIDTH, IMAGE_HEIGHT = None, None  # will be initialized later
@@ -91,7 +106,15 @@ ROTATION = 0  # defaults to vertical
 JPEG = None  # save as .jpg if 0 < JPEG < 100
 FUZZY_EDGES = False  # if True, don't crop the output as much
 INTERPOLATION = 0  # for rotation; 0 = bicubic, 1 = bilinear, 2 = nearest
-Λ = []  # empty list
+L = []  # empty list
+
+
+def printHelp():
+    """Print the script's usage message, formatted from docstring, and exit."""
+    print(__doc__ % {'interpreter': 'py -3' if system() == 'Windows'
+                                    else 'python3',
+                     'scriptfile': __file__})
+    sys.exit(64)
 
 
 def openImage(file, resize=1):
@@ -108,7 +131,7 @@ def openImage(file, resize=1):
     except FileNotFoundError:
         print("No such file: '"+file+"'. Please double-check the command-line \
 syntax.")
-        sys.exit(2)
+        sys.exit(66)
     # because don't want to manipulate JPEGs directly:
     image = image.convert('RGB')
     if resize != 1:  # makes image smaller for speed
@@ -164,12 +187,12 @@ def progress(counter=0, total=None, done=False):
     """
     if done:
         print('.' * 10, "Done!", end="")
-        print("" if not Λ
+        print("" if not L
               else " \U0001F60A\x1B[0m"
               if system() == "\x44\x61\x72\x77\x69\x6E"
               else " \x3A\x29\x1B[0m")
     elif total is not None:
-        print("" if not Λ else "\x1B["+str(31+(counter-1) % 6)+";1m", end="")
+        print("" if not L else "\x1B["+str(31+(counter-1) % 6)+";1m", end="")
         print(counter, "/", total)  # fraction
     else:
         out = int((counter/2)/(IMAGE_WIDTH if IMAGE_WIDTH >= IMAGE_HEIGHT
@@ -349,18 +372,17 @@ def main():
             progress(done=True)
 
     except KeyboardInterrupt:
-        print("\nCancelled." if not Λ
+        print("\nCancelled." if not L
               else "\n\x1B[0m\U0001F308"
               if system() == "\x44\x61\x72\x77\x69\x6E"
               else "\n\x3A\x27\x28\x1B[0m")
-        sys.exit(1)
+        sys.exit(70)
 
 # reading command-line parameters and launching the main loop
 if __name__ == "__main__":
     try:
         if sys.argv[1] in ('-h', '--help'):
-            print(__doc__)  # help message
-            sys.exit(2)
+            printHelp()
         FILENAME = sys.argv[1]
         opts, args = getopt.getopt(sys.argv[2:],  # list of valid flags
                                    "hHVdPfi:r:b:n:J:a:I:",
@@ -370,13 +392,11 @@ if __name__ == "__main__":
                                     "angle=", "jpeg=", "png", "\x67\x61\x79"])
     # IndexError if FILENAME unspecified
     except (IndexError, getopt.GetoptError):
-        print(__doc__)  # help message
-        sys.exit(2)
+        printHelp()
     for opt, arg in opts:
         try:
-            if opt in ('-h', '--help'):  # help message
-                print(__doc__)
-                sys.exit()
+            if opt in ('-h', '--help'):  # usage message
+                printHelp()
             elif opt in ('-b', '--blocks'):  # affects size & num of glitches
                 BLOCKS = int(arg)
             elif opt in ('-n', '--numoutput'):  # number of files generated
@@ -392,7 +412,7 @@ if __name__ == "__main__":
             elif opt in ('-V', '--vertical'):  # useless by default
                 ROTATION = 0
             elif opt in ('\x2D\x2D\x67\x61\x79'):  # puts some joy in your life
-                Λ.append('')
+                L.append('')
             elif opt in ('-J', '--jpeg'):  # output in jpeg with given quality
                 JPEG = int(arg)
             elif opt in ('-P', '--png'):  # useless by default
@@ -404,8 +424,7 @@ if __name__ == "__main__":
             elif opt in ('-I', '--interpol'):  # resizing always uses Lanczos!
                 INTERPOLATION = int(arg)
         except ValueError:
-            print(__doc__)  # help message
-            sys.exit(2)
+            printHelp()
     # failsafe for intensity, otherwise yields poor results
     INTENSITY = INTENSITY if BLOCKS + INTENSITY >= 3 else 3 - BLOCKS
     IMAGE_WIDTH, IMAGE_HEIGHT = openImage(FILENAME, RESIZE_FACT)[1:]
